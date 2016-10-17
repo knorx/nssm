@@ -1,6 +1,6 @@
 {
   "name": "nssm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Kris Reese",
   "summary": "Manages nssm with Puppet",
   "license": "Apache-2.0",
@@ -11,5 +11,5 @@
   ],
   "operatingsystem_support": [
     {"operatingsystem": "Windows"}
-  ],
+  ]
 }
