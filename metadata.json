@@ -1,0 +1,14 @@
+{
+  "name": "nssm",
+  "version": "1.0.0",
+  "author": "Kris Reese",
+  "summary": "Manages nssm with Puppet",
+  "license": "Apache-2.0",
+  "source": "https://github.com/ktreese/nssm",
+  "project_page": "https://github.com/ktreese/nssm",
+  "issues_url": "https://github.com/ktreese/nssm/issues",
+  "dependencies": [
+  ],
+  "operatingsystem_support": [
+  ]
+}
