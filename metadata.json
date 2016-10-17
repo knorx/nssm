@@ -10,5 +10,6 @@
   "dependencies": [
   ],
   "operatingsystem_support": [
-  ]
+    {"operatingsystem": "Windows"}
+  ],
 }
