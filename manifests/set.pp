@@ -28,7 +28,7 @@ define nssm::set (
 
     user { $service_user:
       ensure   => present,
-      comment  => "CI User to run $service_name",
+      comment  => "CI User to run ${service_name}",
       groups   => ['BUILTIN\Administrators', 'BUILTIN\Users'],
       password => $service_pass,
     }
@@ -55,9 +55,9 @@ define nssm::set (
 
   if $service_interactive {
     exec { 'set_service_interactive_process':
-      command => "nssm reset '${service_name}' ObjectName; nssm set '${service_name}' Type SERVICE_INTERACTIVE_PROCESS",
-      path    => 'C:\Program Files\nssm-2.24\win64',
-      unless  => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$args = nssm get '${service_name}' Type; \$cmp = \$args.Contains(\"INTERACTIVE\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
+      command  => "nssm reset '${service_name}' ObjectName; nssm set '${service_name}' Type SERVICE_INTERACTIVE_PROCESS",
+      path     => 'C:\Program Files\nssm-2.24\win64',
+      unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$args = nssm get '${service_name}' Type; \$cmp = \$args.Contains(\"INTERACTIVE\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
       provider => powershell,
     }
   }
