@@ -15,16 +15,21 @@
 # [*service_name*]
 #   name of the service to display in services.msc
 #
+# [*nssm_path*]
+#   PATH to nssm exe
+#   defaults to C:\Program Files\nssm-2.24\win64
+#
 define nssm::install (
   $ensure       = undef,
   $program      = undef,
   $service_name = $title,
+  $nssm_path    = 'C:\Program Files\nssm-2.24\win64',
 ) {
 
   if $ensure == present {
     exec { 'install_service_name':
       command  => "nssm install '${service_name}' '${program}'",
-      path     => 'C:\Program Files\nssm-2.24\win64',
+      path     => $nssm_path,
       unless   => "nssm get '${service_name}' Name",
       provider => powershell,
     }
@@ -33,7 +38,7 @@ define nssm::install (
   if $ensure == absent {
     exec { 'remove_service_name':
       command  => "nssm remove '${service_name}' confirm",
-      path     => 'C:\Program Files\nssm-2.24\win64',
+      path     => $nssm_path,
       onlyif   => "nssm get '${service_name}' Name",
       provider => powershell,
     }
