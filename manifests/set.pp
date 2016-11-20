@@ -14,6 +14,10 @@
 #   Allow service to interact with desktop
 #   Defaults to false
 #
+# [*nssm_path*]
+#   PATH to nssm exe
+#   defaults to C:\Program Files\nssm-2.24\win64
+#
 define nssm::set (
   $create_user         = false,
   $service_name        = $title,
@@ -21,6 +25,7 @@ define nssm::set (
   $service_pass        = undef,
   $service_interactive = false,
   $app_parameters      = undef,
+  $nssm_path           = 'C:\Program Files\nssm-2.24\win64',
 ) {
 
   if $create_user {
@@ -41,14 +46,14 @@ define nssm::set (
   # http://grokbase.com/t/gg/salt-users/152vyb5vx1/weird-whitespace-problem-getting-data-out-of-cmd-run-nssm-on-windows
   exec { 'set_service_name':
     command  => $command,
-    path     => 'C:\Program Files\nssm-2.24\win64',
+    path     => $nssm_path,
     unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$args = nssm get '${service_name}' ObjectName; \$cmp = \$args.Contains(\"${service_user}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
     provider => powershell,
   }
 
   exec { 'set_app_parameters':
     command  => "nssm set '${service_name}' AppParameters '${app_parameters}'",
-    path     => 'C:\Program Files\nssm-2.24\win64',
+    path     => $nssm_path,
     unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$args = nssm get '${service_name}' AppParameters; \$cmp = \$args.Contains(\"${app_parameters}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
     provider => powershell,
   }
@@ -56,7 +61,7 @@ define nssm::set (
   if $service_interactive {
     exec { 'set_service_interactive_process':
       command  => "nssm reset '${service_name}' ObjectName; nssm set '${service_name}' Type SERVICE_INTERACTIVE_PROCESS",
-      path     => 'C:\Program Files\nssm-2.24\win64',
+      path     => $nssm_path,
       unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$args = nssm get '${service_name}' Type; \$cmp = \$args.Contains(\"INTERACTIVE\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
       provider => powershell,
     }

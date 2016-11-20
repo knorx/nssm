@@ -1,3 +1,5 @@
+require 'puppet/parameter/boolean'
+
 Puppet::Type.newtype(:nssm_set) do
   desc "Puppet type to set service parameters"
 
@@ -28,5 +30,10 @@ Puppet::Type.newtype(:nssm_set) do
 
   newproperty(:app_parameters) do
     desc "Set additional app parameters"
+  end
+
+  newproperty(:nssm_path) do
+    desc "Option to specify path to nssm command"
+    defaultto "C:\Program Files\nssm-2.24\win64"
   end
 end
