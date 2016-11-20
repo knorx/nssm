@@ -7,7 +7,19 @@
 
 ## Overview
 
-This module is a couple of defined types to install a service, and set the parameters for that service.  This will obviously require NSSM to be installed
+This module contains a couple of defined types:
+- `nssm::install`  install a service
+- `nssm::set`  set the parameters for that service
+
+#### Installing NSSM
+
+This will obviously require NSSM to be installed.  If you need to install nssm, you may optionally declare the nssm class:
+
+`include nssm`
+
+Note, however, that the `nssm` class is simply declaring the [windows::nssm](https://forge.puppet.com/counsyl/windows#windowsnssm) class, which already does an excellent job of downloading and installing nssm, so understand `counsyl/windows` as a dependency to using my `nssm` class.
+
+If you already have nssm installed, a default path to the nssm exe is assumed as `C:\Program Files\nssm-2.24\win64`.  This may be overridden if your PATH differs by supplying `nssm_path` as an attribute to the `nssm:install` and `nssm::set` defined types.
 
 ## Module Description
 
