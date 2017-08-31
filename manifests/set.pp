@@ -62,7 +62,7 @@ define nssm::set (
   exec { 'set_app_directory':
     command  => "nssm set '${service_name}' AppDirectory '${app_directory}'",
     path     => $nssm_path,
-    unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$args = nssm get '${service_name}' AppDirectory; \$cmp = \$args.Contains(\"${app_directory}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
+    unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$args = nssm get '${service_name}' AppDirectory; if (\$args -ne '') {exit 0} else {exit 1}",
     provider => powershell,
   }
 
