@@ -26,6 +26,7 @@ define nssm::set (
   $service_interactive = false,
   $app_parameters      = undef,
   $nssm_path           = 'C:\Program Files\nssm-2.24\win64',
+  $app_directory       = 'C:\Program Files',
 ) {
 
   if $create_user {
