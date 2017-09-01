@@ -26,7 +26,6 @@ define nssm::set (
   $service_interactive = false,
   $app_parameters      = undef,
   $nssm_path           = 'C:\Program Files\nssm-2.24\win64',
-  $app_directory       = 'C:\Program Files\nssm-2.24\win64',
 ) {
 
   if $create_user {
@@ -56,13 +55,6 @@ define nssm::set (
     command  => "nssm set '${service_name}' AppParameters '${app_parameters}'",
     path     => $nssm_path,
     unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = nssm get '${service_name}' AppParameters; \$cmp = \$a.Contains(\"${app_parameters}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
-    provider => powershell,
-  }
-
-  exec { 'set_app_directory':
-    command  => "nssm set '${service_name}' AppDirectory '${app_directory}'",
-    path     => $nssm_path,
-    unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = nssm get '${service_name}' AppDirectory; \$cmp = \$a.Contains(\"${app_directory}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
     provider => powershell,
   }
 
