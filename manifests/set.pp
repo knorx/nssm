@@ -58,6 +58,13 @@ define nssm::set (
     provider => powershell,
   }
 
+  exec { 'set_app_directory':
+    command  => "nssm set '${service_name}' AppDirectory '${app_directory}'",
+    path     => $nssm_path,
+    unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = & \"${nssm_path}\\nssm\" get '${service_name}' AppDirectory; if (\$a -ne '') {exit 0} else {exit 1}",
+    provider => powershell,
+  }
+
   if $service_interactive {
     exec { 'set_service_interactive_process':
       command  => "nssm reset '${service_name}' ObjectName; nssm set '${service_name}' Type SERVICE_INTERACTIVE_PROCESS",
