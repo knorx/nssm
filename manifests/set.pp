@@ -47,7 +47,7 @@ define nssm::set (
   exec { 'set_service_name':
     command  => $command,
     path     => $nssm_path,
-    unless   => "cd '${nssm_path}';[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = nssm get '${service_name}' ObjectName; \$cmp = \$a.Contains(\"${service_user}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
+    unless   => "cd '${nssm_path}'; [Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = nssm get '${service_name}' ObjectName; \$cmp = \$a.Contains(\"${service_user}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
     provider => powershell,
   }
 
