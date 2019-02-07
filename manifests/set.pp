@@ -47,26 +47,20 @@ define nssm::set (
   exec { 'set_service_name':
     command  => $command,
     path     => $nssm_path,
-    unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = & \"${nssm_path}\\nssm\" get '${service_name}' ObjectName; \$cmp = \$a.Contains(\"${service_user}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
-    provider => powershell,
-    logoutput => true,
+    unless   => "powershell.exe -noexit \"[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = & \"${nssm_path}\\nssm\" get '${service_name}' ObjectName; \$cmp = \$a.Contains(\"${service_user}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}\"",
   }
 
   exec { 'set_app_parameters':
     command  => "nssm set '${service_name}' AppParameters '${app_parameters}'",
     path     => $nssm_path,
-    unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = & \"${nssm_path}\\nssm\" get '${service_name}' AppParameters; \$cmp = \$a.Contains(\"${app_parameters}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
-    provider => powershell,
-    logoutput => true,
+    unless   => "powershell.exe -noexit \"[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = & \"${nssm_path}\\nssm\" get '${service_name}' AppParameters; \$cmp = \$a.Contains(\"${app_parameters}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}\"",
   }
 
   if $service_interactive {
     exec { 'set_service_interactive_process':
       command  => "nssm reset '${service_name}' ObjectName; nssm set '${service_name}' Type SERVICE_INTERACTIVE_PROCESS",
       path     => $nssm_path,
-      unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = & \"${nssm_path}\\nssm\" get '${service_name}' Type; \$cmp = \$a.Contains(\"INTERACTIVE\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
-      provider => powershell,
-      logoutput => true,
+      unless   => "powershell.exe -noexit \"[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = & \"${nssm_path}\\nssm\" get '${service_name}' Type; \$cmp = \$a.Contains(\"INTERACTIVE\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}\"",
     }
   }
 
