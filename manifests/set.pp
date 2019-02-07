@@ -49,6 +49,7 @@ define nssm::set (
     path     => $nssm_path,
     unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = & \"${nssm_path}\\nssm\" get '${service_name}' ObjectName; \$cmp = \$a.Contains(\"${service_user}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
     provider => powershell,
+    logoutput => true,
   }
 
   exec { 'set_app_parameters':
@@ -56,6 +57,7 @@ define nssm::set (
     path     => $nssm_path,
     unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = & \"${nssm_path}\\nssm\" get '${service_name}' AppParameters; \$cmp = \$a.Contains(\"${app_parameters}\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
     provider => powershell,
+    logoutput => true,
   }
 
   if $service_interactive {
@@ -64,6 +66,7 @@ define nssm::set (
       path     => $nssm_path,
       unless   => "[Console]::OutputEncoding = [System.Text.Encoding]::Unicode; \$a = & \"${nssm_path}\\nssm\" get '${service_name}' Type; \$cmp = \$a.Contains(\"INTERACTIVE\"); if (\$cmp -eq \"True\") {exit 0} else {exit 1}",
       provider => powershell,
+      logoutput => true,
     }
   }
 
